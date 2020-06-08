@@ -1,0 +1,554 @@
+{
+    "rules": [
+        {
+            "description": "Left shift -> (if alone) [",
+            "manipulators": [
+                {
+                    "from": {
+                        "key_code": "left_shift"
+                    },
+                    "to_if_alone": [
+                        {
+                            "key_code": "5",
+                            "modifiers": [
+                                "left_shift",
+                                "left_option"
+                            ]
+                        }
+                    ],
+                    "to_if_held_down": [
+                        {
+                            "key_code": "left_shift"
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": "Right shift -> (if alone) ]",
+            "manipulators": [
+                {
+                    "from": {
+                        "key_code": "right_shift"
+                    },
+                    "to_if_alone": [
+                        {
+                            "key_code": "hyphen",
+                            "modifiers": [
+                                "right_shift",
+                                "right_option"
+                            ]
+                        }
+                    ],
+                    "to_if_held_down": [
+                        {
+                            "key_code": "right_shift"
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": "F20 -> (if alone) control + s (Window Layout Mode) | (if held) Hyper (cmd+opt+ctrl+shift)",
+            "manipulators": [
+                {
+                    "from": {
+                        "key_code": "f20",
+                        "modifiers": {
+                            "optional": [
+                                "any"
+                            ]
+                        }
+                    },
+                    "to_if_alone": [
+                        {
+                            "key_code": "s",
+                            "modifiers": [
+                                "left_control"
+                            ]
+                        }
+                    ],
+                    "to_if_held_down": [
+                        {
+                            "key_code": "left_shift",
+                            "modifiers": [
+                                "left_control",
+                                "left_option",
+                                "left_command"
+                            ]
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "manipulators": [
+                {
+                    "description": "Hyper + spacebar -> left control + tab (window switch)",
+                    "from": {
+                        "key_code": "spacebar",
+                        "modifiers": {
+                            "mandatory": [
+                                "left_shift",
+                                "left_control",
+                                "left_option",
+                                "left_command"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "tab",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "manipulators": [
+                {
+                    "description": "Hyper + H -> left control + left arrow (space left)",
+                    "from": {
+                        "key_code": "h",
+                        "modifiers": {
+                            "mandatory": [
+                                "left_shift",
+                                "left_control",
+                                "left_option",
+                                "left_command"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "left_arrow",
+                            "modifiers": [
+                                "left_control"
+                            ]
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "manipulators": [
+                {
+                    "description": "Hyper + L -> left control + right arrow (space right)",
+                    "from": {
+                        "key_code": "l",
+                        "modifiers": {
+                            "mandatory": [
+                                "left_shift",
+                                "left_control",
+                                "left_option",
+                                "left_command"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "right_arrow",
+                            "modifiers": [
+                                "left_control"
+                            ]
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": "Escape -> (if SDM off && non vim apps) (S)uper(D)uper Mode On",
+            "manipulators": [
+                {
+                    "conditions": [
+                        {
+                            "name": "superduper-mode",
+                            "type": "variable_if",
+                            "value": 0
+                        },
+                        {
+                            "bundle_identifiers": [
+                                "^com\\.googlecode\\.iterm2$"
+                            ],
+                            "type": "frontmost_application_unless"
+                        },
+                        {
+                            "bundle_identifiers": [
+                                "^org\\.eclipse\\.platform\\.ide$"
+                            ],
+                            "type": "frontmost_application_unless"
+                        },
+                        {
+                            "bundle_identifiers": [
+                                "^com\\.jetbrains\\.pycharm$"
+                            ],
+                            "type": "frontmost_application_unless"
+                        },
+                        {
+                            "bundle_identifiers": [
+                                "^com\\.google\\.Chrome$"
+                            ],
+                            "type": "frontmost_application_unless"
+                        }
+                    ],
+                    "from": {
+                        "key_code": "escape"
+                    },
+                    "to": [
+                        {
+                            "set_variable": {
+                                "name": "superduper-mode",
+                                "value": 1
+                            }
+                        },
+                        {
+                            "key_code": "f15"
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": "I -> (S)uper(D)uper Mode Off (all apps)",
+            "manipulators": [
+                {
+                    "conditions": [
+                        {
+                            "name": "superduper-mode",
+                            "type": "variable_if",
+                            "value": 1
+                        }
+                    ],
+                    "from": {
+                        "key_code": "i",
+                        "modifiers": {
+                            "optional": [
+                                "any"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "set_variable": {
+                                "name": "superduper-mode",
+                                "value": 0
+                            }
+                        },
+                        {
+                            "key_code": "f15"
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": "(S)uper(D)uper + H -> Left",
+            "manipulators": [
+                {
+                    "conditions": [
+                        {
+                            "name": "superduper-mode",
+                            "type": "variable_if",
+                            "value": 1
+                        }
+                    ],
+                    "from": {
+                        "key_code": "h",
+                        "modifiers": {
+                            "optional": [
+                                "any"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "left_arrow"
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": "(S)uper(D)uper + J -> Down",
+            "manipulators": [
+                {
+                    "conditions": [
+                        {
+                            "name": "superduper-mode",
+                            "type": "variable_if",
+                            "value": 1
+                        }
+                    ],
+                    "from": {
+                        "key_code": "j",
+                        "modifiers": {
+                            "optional": [
+                                "any"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "down_arrow"
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": "(S)uper(D)uper + K -> Up",
+            "manipulators": [
+                {
+                    "conditions": [
+                        {
+                            "name": "superduper-mode",
+                            "type": "variable_if",
+                            "value": 1
+                        }
+                    ],
+                    "from": {
+                        "key_code": "k",
+                        "modifiers": {
+                            "optional": [
+                                "any"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "up_arrow"
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": "(S)uper(D)uper + L -> Right",
+            "manipulators": [
+                {
+                    "conditions": [
+                        {
+                            "name": "superduper-mode",
+                            "type": "variable_if",
+                            "value": 1
+                        }
+                    ],
+                    "from": {
+                        "key_code": "l",
+                        "modifiers": {
+                            "optional": [
+                                "any"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "right_arrow"
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": "(S)uper(D)uper + gg -> Home",
+            "manipulators": [
+                {
+                    "conditions": [
+                        {
+                            "name": "superduper-mode",
+                            "type": "variable_if",
+                            "value": 1
+                        },
+                        {
+                            "name": "standalone_g_pressed",
+                            "type": "variable_if",
+                            "value": 1
+                        }
+                    ],
+                    "from": {
+                        "key_code": "g",
+                        "modifiers": {}
+                    },
+                    "to": [
+                        {
+                            "key_code": "home"
+                        }
+                    ],
+                    "type": "basic"
+                },
+                {
+                    "conditions": [
+                        {
+                            "name": "superduper-mode",
+                            "type": "variable_if",
+                            "value": 1
+                        }
+                    ],
+                    "from": {
+                        "key_code": "g",
+                        "modifiers": {}
+                    },
+                    "to": [
+                        {
+                            "set_variable": {
+                                "name": "standalone_g_pressed",
+                                "value": 1
+                            }
+                        }
+                    ],
+                    "to_delayed_action": {
+                        "to_if_canceled": [
+                            {
+                                "set_variable": {
+                                    "name": "standalone_g_pressed",
+                                    "value": 0
+                                }
+                            }
+                        ],
+                        "to_if_invoked": [
+                            {
+                                "set_variable": {
+                                    "name": "standalone_g_pressed",
+                                    "value": 0
+                                }
+                            },
+                            {
+                                "key_code": "g"
+                            }
+                        ]
+                    },
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": "(S)uper(D)uper + G(upper) -> end",
+            "manipulators": [
+                {
+                    "conditions": [
+                        {
+                            "name": "superduper-mode",
+                            "type": "variable_if",
+                            "value": 1
+                        }
+                    ],
+                    "from": {
+                        "key_code": "g",
+                        "modifiers": {
+                            "mandatory": [
+                                "shift"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "end"
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": "(S)uper(D)uper + Return -> Command + O",
+            "manipulators": [
+                {
+                    "conditions": [
+                        {
+                            "name": "superduper-mode",
+                            "type": "variable_if",
+                            "value": 1
+                        },
+                        {
+                            "bundle_identifiers": [
+                                "^com\\.apple\\.finder$"
+                            ],
+                            "type": "frontmost_application_if"
+                        }
+                    ],
+                    "from": {
+                        "key_code": "return_or_enter",
+                        "modifiers": {
+                            "optional": [
+                                "any"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "o",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        },
+	{
+            "description": "F8 -> (if alone) left control + F8",
+            "manipulators": [
+                {
+                    "from": {
+                        "key_code": "f8"
+                    },
+                    "to_if_alone": [
+                        {
+                            "key_code": "f8",
+                            "modifiers": [
+                                "left_control"
+                            ]
+                        }
+                    ],
+                    "to_if_held_down": [
+                        {
+                            "key_code": "f8"
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        },
+	{
+            "description": "F9 -> (if alone) left control + F9",
+            "manipulators": [
+                {
+                    "from": {
+                        "key_code": "f9"
+                    },
+                    "to_if_alone": [
+                        {
+                            "key_code": "f9",
+                            "modifiers": [
+                                "left_control"
+                            ]
+                        }
+                    ],
+                    "to_if_held_down": [
+                        {
+                            "key_code": "f9"
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        }
+    ],
+    "title": "(A)LL YO(U) (N)EED (I)S (K)EYBOARD"
+}
