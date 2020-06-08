@@ -166,12 +166,12 @@
             ]
         },
         {
-            "description": "Escape -> (if SDM off && non vim apps) (S)uper(D)uper Mode On",
+            "description": "Escape -> (if SDM off && non vim apps) Vim Mode On",
             "manipulators": [
                 {
                     "conditions": [
                         {
-                            "name": "superduper-mode",
+                            "name": "vim-mode",
                             "type": "variable_if",
                             "value": 0
                         },
@@ -206,7 +206,7 @@
                     "to": [
                         {
                             "set_variable": {
-                                "name": "superduper-mode",
+                                "name": "vim-mode",
                                 "value": 1
                             }
                         },
@@ -219,12 +219,12 @@
             ]
         },
         {
-            "description": "I -> (S)uper(D)uper Mode Off (all apps)",
+            "description": "I -> Vim Mode Off (all apps)",
             "manipulators": [
                 {
                     "conditions": [
                         {
-                            "name": "superduper-mode",
+                            "name": "vim-mode",
                             "type": "variable_if",
                             "value": 1
                         }
@@ -240,7 +240,7 @@
                     "to": [
                         {
                             "set_variable": {
-                                "name": "superduper-mode",
+                                "name": "vim-mode",
                                 "value": 0
                             }
                         },
@@ -253,12 +253,12 @@
             ]
         },
         {
-            "description": "(S)uper(D)uper + H -> Left",
+            "description": "Vim Mode + H -> Left",
             "manipulators": [
                 {
                     "conditions": [
                         {
-                            "name": "superduper-mode",
+                            "name": "vim-mode",
                             "type": "variable_if",
                             "value": 1
                         }
@@ -281,12 +281,12 @@
             ]
         },
         {
-            "description": "(S)uper(D)uper + J -> Down",
+            "description": "Vim Mode + J -> Down",
             "manipulators": [
                 {
                     "conditions": [
                         {
-                            "name": "superduper-mode",
+                            "name": "vim-mode",
                             "type": "variable_if",
                             "value": 1
                         }
@@ -309,12 +309,12 @@
             ]
         },
         {
-            "description": "(S)uper(D)uper + K -> Up",
+            "description": "Vim Mode + K -> Up",
             "manipulators": [
                 {
                     "conditions": [
                         {
-                            "name": "superduper-mode",
+                            "name": "vim-mode",
                             "type": "variable_if",
                             "value": 1
                         }
@@ -337,12 +337,12 @@
             ]
         },
         {
-            "description": "(S)uper(D)uper + L -> Right",
+            "description": "Vim Mode + L -> Right",
             "manipulators": [
                 {
                     "conditions": [
                         {
-                            "name": "superduper-mode",
+                            "name": "vim-mode",
                             "type": "variable_if",
                             "value": 1
                         }
@@ -365,12 +365,12 @@
             ]
         },
         {
-            "description": "(S)uper(D)uper + gg -> Home",
+            "description": "Vim Mode + gg -> Home",
             "manipulators": [
                 {
                     "conditions": [
                         {
-                            "name": "superduper-mode",
+                            "name": "vim-mode",
                             "type": "variable_if",
                             "value": 1
                         },
@@ -394,7 +394,7 @@
                 {
                     "conditions": [
                         {
-                            "name": "superduper-mode",
+                            "name": "vim-mode",
                             "type": "variable_if",
                             "value": 1
                         }
@@ -437,12 +437,12 @@
             ]
         },
         {
-            "description": "(S)uper(D)uper + G(upper) -> end",
+            "description": "Vim Mode + G(upper) -> end",
             "manipulators": [
                 {
                     "conditions": [
                         {
-                            "name": "superduper-mode",
+                            "name": "vim-mode",
                             "type": "variable_if",
                             "value": 1
                         }
@@ -465,12 +465,12 @@
             ]
         },
         {
-            "description": "(S)uper(D)uper + Return -> Command + O",
+            "description": "Vim Mode + Return -> Command + O",
             "manipulators": [
                 {
                     "conditions": [
                         {
-                            "name": "superduper-mode",
+                            "name": "vim-mode",
                             "type": "variable_if",
                             "value": 1
                         },
@@ -501,7 +501,7 @@
                 }
             ]
         },
-	{
+        {
             "description": "F8 -> (if alone) left control + F8",
             "manipulators": [
                 {
@@ -525,7 +525,7 @@
                 }
             ]
         },
-	{
+        {
             "description": "F9 -> (if alone) left control + F9",
             "manipulators": [
                 {
