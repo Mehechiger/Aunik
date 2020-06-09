@@ -5,8 +5,10 @@
 -- your preferred shortcuts.
 return {
   { 'b', 'Google Chrome', 'tell application "/Applications/Google Chrome.app"\n  make new window\n  activate\nend tell' },     -- "B" for "Browser"
-  { 'f', 'Finder', 'tell application "Finder" to make new Finder window' },            -- "F" for "Finder"
+  { 'f', 'Finder', 'tell application "Finder"\n  make new Finder window\n  activate\nend tell' },            -- "F" for "Finder"
   { 't', 'iTerm', 'tell application "iTerm2"\n  create window with default profile\nend tell' },             -- "T" for "Terminal"
+  { 'e', 'Pycharm CE', '' },             -- "E" for "IDE"
+  { 'a', 'Activity Monitor', '' },             -- "A" for "Activity Monitor"
 }
 --  { 'a', 'Music' },             -- "A" for "Apple Music"
 --  { 'c', 'Slack' },             -- "C for "Chat"
