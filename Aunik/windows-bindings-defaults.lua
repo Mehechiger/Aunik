@@ -26,7 +26,7 @@
 
 return {
   modifiers = {'ctrl'},
-  showHelp  = true,
+  showHelp  = false,
   trigger   = 's',
   mappings  = {
     { {},         'space', 'maximize' },

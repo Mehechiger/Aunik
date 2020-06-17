@@ -62,15 +62,15 @@ local Vim = {}
 
 function Vim:new()
 	newObj = {state = 'normal',
-						keyMods = {}, -- these are like cmd, alt, shift, etc...
-						commandMods = nil, -- these are like d, y, c in normal mode
-						numberMods = 0, -- for # times to do an action
-						debug = false,
-						events = 0 -- flag for # events to let by the event mngr
-					}
+	keyMods = {}, -- these are like cmd, alt, shift, etc...
+	commandMods = nil, -- these are like d, y, c in normal mode
+	numberMods = 0, -- for # times to do an action
+	debug = false,
+	events = 0 -- flag for # events to let by the event mngr
+}
 
-	self.__index = self
-	return setmetatable(newObj, self)
+self.__index = self
+return setmetatable(newObj, self)
 end
 
 function Vim:setDebug(val)
@@ -87,10 +87,27 @@ function Vim:hideStatus()
 	end
 end
 
-function Vim:showStatus()
+function Vim:showStatus(...)
 	self:hideStatus()
-	local msgStr = firstToUpper(self.state)
-	self.statusMessage = self.message.new(msgStr, 80)
+	local msgStr = ''
+	if (... == nil) then
+		msgStr = string.upper(self.state)
+	else
+		msgStr = ...
+	end
+
+	local textColor = { red = 1, green = 1, blue = 1, alpha=0.7 }
+	local backgroundColor = {}
+	if (string.lower(msgStr)=='visual') then
+		backgroundColor = { red = 0.9, green = 0.2, blue = 0.8, alpha=0.9 }
+	elseif (string.lower(msgStr)=='normal') then
+		backgroundColor = { red = 0.2, green = 0.2, blue = 1, alpha=0.9 }
+	elseif (string.lower(msgStr)=='hint') then
+		backgroundColor = { red = 0.9, green = 0.9, blue = 0.2, alpha=0.9 }
+	else
+		backgroundColor = { red = 0.1, green = 0.6, blue = 0.2, alpha=0.9 }
+	end
+	self.statusMessage = self.message.new(msgStr, textColor, backgroundColor)
 	self.statusMessage:show()
 end
 
@@ -134,6 +151,7 @@ end
 function Vim:handleKeyEvent(char)
 	-- check for text modifiers
 	local modifiers = 'dcyr'
+	local hints = 'abcdeghijklmnopqrstuwxyz'
 	local stop_event = true -- stop event from propagating
 	local keyMods = self.keyMods
 	if self.commandMods ~= nil and string.find('dcy', self.commandMods) ~= nil then
@@ -141,6 +159,19 @@ function Vim:handleKeyEvent(char)
 		keyMods = mergeArrays(keyMods, {'shift'})
 	end
 	-- allows for visual mode too
+	if self.state == 'hint' then
+		if hints:find(char) ~= nil then
+			self.events = 1
+			keyPress({}, char)
+			stop_event=true
+		else
+			self.events = 1
+			keyPress({'cmd','alt','ctrl','shift'}, '`')
+			stop_event=true
+		end
+		return stop_event
+	end
+	-- hint mode
 	local movements = {
 		j = keyPressFactory(keyMods, 'down'),
 		k = keyPressFactory(keyMods, 'up'),
@@ -245,6 +276,10 @@ function Vim:eventWatcher(evt)
 		-- if v key is hit, then go into visual mode
 		self:setMode('visual')
 		return stop_event
+	elseif evtChar == 'f' then
+		self.events = 1
+		keyPress({'cmd','alt','ctrl','shift'}, '`')
+		self:setMode('hint')
 	elseif evtChar == ':' then
 		-- do nothing for now because no ex mode
 		self:setMode('ex')
@@ -337,8 +372,14 @@ function Vim:setMode(val)
 		self:showStatus()
 	elseif val == 'ex' then
 		--self:hideStatus()
-		self:showStatus()
+		self:showStatus(": ")
 		-- do nothing because this is not implemented
+	elseif val == 'hint' then
+		self.keyMods = {}
+		self.commandMods = nil
+		self.numberMods = 0
+		self.moving = false
+		self:showStatus()
 	elseif val == 'insert' then
 		--self:hideStatus()
 		self:showStatus()
@@ -362,6 +403,6 @@ function Set (list)
   return set
 end
 
-local blacklist = Set {"iTerm2", "PyCharm", "PyCharm CE", "Google Chrome"}
+local blacklist = Set {"iTerm2", "PyCharm", "PyCharm CE", "Google Chrome", "Eclipse"}
 local v = Vim:new()
 v:start(blacklist)

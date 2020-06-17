@@ -7,8 +7,9 @@ return {
   { 'b', 'Google Chrome', 'tell application "/Applications/Google Chrome.app"\n  make new window\n  activate\nend tell' },     -- "B" for "Browser"
   { 'f', 'Finder', 'tell application "Finder"\n  make new Finder window\n  activate\nend tell' },            -- "F" for "Finder"
   { 't', 'iTerm', 'tell application "iTerm2"\n  create window with default profile\nend tell' },             -- "T" for "Terminal"
-  { 'e', 'Pycharm CE', '' },             -- "E" for "IDE"
+  { 'd', 'Pycharm CE', '' },             -- "D" for "IDE"
   { 'a', 'Activity Monitor', '' },             -- "A" for "Activity Monitor"
+  { 'e', 'Mail', '' },             -- "E" for "E-Mail"
 }
 --  { 'a', 'Music' },             -- "A" for "Apple Music"
 --  { 'c', 'Slack' },             -- "C for "Chat"
