@@ -40,6 +40,7 @@ require('Aunik.hyper')
 require('Aunik.windows')
 require('Aunik.usb_watcher')
 --require('Aunik.ubivim_notify')
-require('Aunik.vim_bindings')
+--require('Aunik.vim_bindings')
+require('Aunik.capslock')
 
 hs.notify.new({title='Hammerspoon', informativeText='Ready to rock 🤘'}):send()

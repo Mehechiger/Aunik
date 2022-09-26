@@ -1,11 +1,19 @@
 hs.window.animationDuration = 0
 
+function quitApplication(win)
+  hs.eventtap.keyStroke("command", "q", 100)
+end
+
+function maximize(win)
+  win:maximize()
+end
+
 -- +-----------------+
 -- |        |        |
 -- |  HERE  |        |
 -- |        |        |
 -- +-----------------+
-function hs.window.left(win)
+function left(win)
   local f = win:frame()
   local screen = win:screen()
   local max = screen:frame()
@@ -22,7 +30,7 @@ end
 -- |        |  HERE  |
 -- |        |        |
 -- +-----------------+
-function hs.window.right(win)
+function right(win)
   local f = win:frame()
   local screen = win:screen()
   local max = screen:frame()
@@ -39,7 +47,7 @@ end
 -- +-----------------+
 -- |                 |
 -- +-----------------+
-function hs.window.up(win)
+function up(win)
   local f = win:frame()
   local screen = win:screen()
   local max = screen:frame()
@@ -56,7 +64,7 @@ end
 -- +-----------------+
 -- |      HERE       |
 -- +-----------------+
-function hs.window.down(win)
+function down(win)
   local f = win:frame()
   local screen = win:screen()
   local max = screen:frame()
@@ -73,7 +81,7 @@ end
 -- +--------+        |
 -- |                 |
 -- +-----------------+
-function hs.window.upLeft(win)
+function upLeft(win)
   local f = win:frame()
   local screen = win:screen()
   local max = screen:fullFrame()
@@ -90,7 +98,7 @@ end
 -- +--------+        |
 -- |  HERE  |        |
 -- +-----------------+
-function hs.window.downLeft(win)
+function downLeft(win)
   local f = win:frame()
   local screen = win:screen()
   local max = screen:fullFrame()
@@ -107,7 +115,7 @@ end
 -- |        +--------|
 -- |        |  HERE  |
 -- +-----------------+
-function hs.window.downRight(win)
+function downRight(win)
   local f = win:frame()
   local screen = win:screen()
   local max = screen:fullFrame()
@@ -125,7 +133,7 @@ end
 -- |        +--------|
 -- |                 |
 -- +-----------------+
-function hs.window.upRight(win)
+function upRight(win)
   local f = win:frame()
   local screen = win:screen()
   local max = screen:fullFrame()
@@ -138,11 +146,11 @@ function hs.window.upRight(win)
 end
 
 -- +--------------+
--- |  |        |  |
+-- |  ----------  |
 -- |  |  HERE  |  |
--- |  |        |  |
+-- |  ----------  |
 -- +---------------+
-function hs.window.centerWithFullHeight(win)
+function centerWithFullHeight(win)
   local f = win:frame()
   local screen = win:screen()
   local max = screen:fullFrame()
@@ -159,7 +167,7 @@ end
 -- | HERE |          |
 -- |      |          |
 -- +-----------------+
-function hs.window.left40(win)
+function left40(win)
   local f = win:frame()
   local screen = win:screen()
   local max = screen:frame()
@@ -172,11 +180,45 @@ function hs.window.left40(win)
 end
 
 -- +-----------------+
+-- |           |     |
+-- |    HERE   |     |
+-- |           |     |
+-- +-----------------+
+function left60(win)
+  local f = win:frame()
+  local screen = win:screen()
+  local max = screen:frame()
+
+  f.x = max.x
+  f.y = max.y
+  f.w = max.w * 0.6
+  f.h = max.h
+  win:setFrame(f)
+end
+
+-- +-----------------+
+-- |          |      |
+-- |          | HERE |
+-- |          |      |
+-- +-----------------+
+function right40(win)
+  local f = win:frame()
+  local screen = win:screen()
+  local max = screen:frame()
+
+  f.x = max.x + (max.w * 0.6)
+  f.y = max.y
+  f.w = max.w * 0.4
+  f.h = max.h
+  win:setFrame(f)
+end
+
+-- +-----------------+
 -- |      |          |
 -- |      |   HERE   |
 -- |      |          |
 -- +-----------------+
-function hs.window.right60(win)
+function right60(win)
   local f = win:frame()
   local screen = win:screen()
   local max = screen:frame()
@@ -188,7 +230,7 @@ function hs.window.right60(win)
   win:setFrame(f)
 end
 
-function hs.window.nextScreen(win)
+function nextScreen(win)
   local currentScreen = win:screen()
   local allScreens = hs.screen.allScreens()
   currentScreenIndex = hs.fnutils.indexOf(allScreens, currentScreen)
@@ -201,22 +243,22 @@ function hs.window.nextScreen(win)
   end
 end
 
-windowLayoutMode = hs.hotkey.modal.new({}, 'F16')
+--windowLayoutMode = hs.hotkey.modal.new({})
 
-windowLayoutMode.entered = function()
-  windowLayoutMode.statusMessage:show()
-end
-windowLayoutMode.exited = function()
-  windowLayoutMode.statusMessage:hide()
-end
+--windowLayoutMode.entered = function()
+--  windowLayoutMode.statusMessage:show()
+--end
+--windowLayoutMode.exited = function()
+--  windowLayoutMode.statusMessage:hide()
+--end
 
 -- Bind the given key to call the given function and exit WindowLayout mode
-function windowLayoutMode.bindWithAutomaticExit(mode, modifiers, key, fn)
-  mode:bind(modifiers, key, function()
-    mode:exit()
-    fn()
-  end)
-end
+--function windowLayoutMode.bindWithAutomaticExit(mode, modifiers, key, fn)
+--  mode:bind(modifiers, key, function()
+--    mode:exit()
+--    fn()
+--  end)
+--end
 
 local status, windowMappings = pcall(require, 'Aunik.windows-bindings')
 
@@ -224,51 +266,55 @@ if not status then
   windowMappings = require('Aunik.windows-bindings-defaults')
 end
 
-local modifiers = windowMappings.modifiers
-local showHelp  = windowMappings.showHelp
-local trigger   = windowMappings.trigger
+--local modifiers = windowMappings.modifiers
+--local showHelp  = windowMappings.showHelp
+--local trigger   = windowMappings.trigger
 local mappings  = windowMappings.mappings
 
-function getModifiersStr(modifiers)
-  local modMap = { shift = '⇧', ctrl = '⌃', alt = '⌥', cmd = '⌘' }
-  local retVal = ''
+--function getModifiersStr(modifiers)
+--  local modMap = { shift = '⇧', ctrl = '⌃', alt = '⌥', cmd = '⌘' }
+--  local retVal = ''
+--
+--  for i, v in ipairs(modifiers) do
+--    retVal = retVal .. modMap[v]
+--  end
+--
+--  return retVal
+--end
 
-  for i, v in ipairs(modifiers) do
-    retVal = retVal .. modMap[v]
-  end
-
-  return retVal
-end
-
-local msgStr = getModifiersStr(modifiers)
-msgStr = 'Window Layout Mode (' .. msgStr .. (string.len(msgStr) > 0 and '+' or '') .. trigger .. ')'
+--local msgStr = getModifiersStr(modifiers)
+--msgStr = 'Window Layout Mode (' .. msgStr .. (string.len(msgStr) > 0 and '+' or '') .. trigger .. ')'
 
 for i, mapping in ipairs(mappings) do
   local modifiers, trigger, winFunction = table.unpack(mapping)
-  local hotKeyStr = getModifiersStr(modifiers)
+--  local hotKeyStr = getModifiersStr(modifiers)
 
-  if showHelp == true then
-    if string.len(hotKeyStr) > 0 then
-      msgStr = msgStr .. (string.format('\n%10s+%s => %s', hotKeyStr, trigger, winFunction))
-    else
-      msgStr = msgStr .. (string.format('\n%11s => %s', trigger, winFunction))
-    end
-  end
-
-  windowLayoutMode:bindWithAutomaticExit(modifiers, trigger, function()
-    --example: hs.window.focusedWindow():upRight()
+  hs.hotkey.bind(modifiers, trigger, function()
     local fw = hs.window.focusedWindow()
-    fw[winFunction](fw)
+    _G[winFunction](fw)
   end)
+--  if showHelp == true then
+--    if string.len(hotKeyStr) > 0 then
+--      msgStr = msgStr .. (string.format('\n%10s+%s => %s', hotKeyStr, trigger, winFunction))
+--    else
+--      msgStr = msgStr .. (string.format('\n%11s => %s', trigger, winFunction))
+--    end
+--  end
+
+--  windowLayoutMode:bindWithAutomaticExit(modifiers, trigger, function()
+--    --example: hs.window.focusedWindow():upRight()
+--    local fw = hs.window.focusedWindow()
+--    _G[winFunction](fw)
+--  end)
 end
 
-local message = require('Aunik.status-message')
-windowLayoutMode.statusMessage = message.new(msgStr)
+--local message = require('Aunik.status-message')
+--windowLayoutMode.statusMessage = message.new(msgStr)
 
 -- Use modifiers+trigger to toggle WindowLayout Mode
-hs.hotkey.bind(modifiers, trigger, function()
-  windowLayoutMode:enter()
-end)
-windowLayoutMode:bind(modifiers, trigger, function()
-  windowLayoutMode:exit()
-end)
+--hs.hotkey.bind(modifiers, trigger, function()
+--  windowLayoutMode:enter()
+--end)
+--windowLayoutMode:bind(modifiers, trigger, function()
+--  windowLayoutMode:exit()
+--end)

@@ -7,13 +7,16 @@ end
 for i, mapping in ipairs(hyperModeAppMappings) do
   local key = mapping[1]
   local app = mapping[2]
-  local opt = mapping[3]
+  local osa = mapping[3]
+  local sh = mapping[4]
   hs.hotkey.bind({'shift', 'ctrl', 'alt', 'cmd'}, key, function()
     if (type(app) == 'string') then
-      if (opt == '') then
+      if (osa == '' and sh == '') then
 	hs.application.open(app)
+      elseif (osa ~= '') then
+	hs.osascript.applescript(osa)
       else
-	hs.osascript(opt)
+	hs.execute(sh)
       end
     elseif (type(app) == 'function') then
       app()

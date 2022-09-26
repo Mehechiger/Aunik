@@ -14,7 +14,7 @@ statusmessage.new = function(messageText, ...)
 		local frame = screen.primaryScreen():frame()
 
 		local styledTextAttributes = {
-			font = { name = 'Source Code Pro for Powerline', size = 48 },
+			font = { name = 'Source Code Pro for Powerline', size = math.floor(frame.w / 20) },
 			color = textColor
 		}
 
