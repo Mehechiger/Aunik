@@ -42,5 +42,6 @@ require('Aunik.usb_watcher')
 --require('Aunik.ubivim_notify')
 --require('Aunik.vim_bindings')
 require('Aunik.capslock')
+require('Aunik.cn_input_src')
 
 hs.notify.new({title='Hammerspoon', informativeText='Ready to rock 🤘'}):send()
